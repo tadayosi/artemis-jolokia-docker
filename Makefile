@@ -6,3 +6,7 @@ run:
 
 push:
 	docker push tadayosi/artemis:latest
+
+deploy-openshift:
+	oc run artemis --image=tadayosi/artemis:latest
+	oc patch dc artemis -p '{"spec":{"template":{"spec":{"containers":[{"name":"artemis","ports":[{"containerPort":8161,"name":"console-jolokia","protocol":"TCP"},{"containerPort":8778,"name":"jolokia","protocol":"TCP"},{"containerPort":61616,"name":"artemis","protocol":"TCP"}]}]}}}}'

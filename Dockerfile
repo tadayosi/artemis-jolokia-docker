@@ -14,14 +14,19 @@ RUN curl -o artemis.tar.gz https://repository.apache.org/content/repositories/re
     rm artemis.tar.gz && \
     chown jboss:jboss -R artemis
 
-# Download Jolokia
-RUN cd artemis && \
-    curl -o jolokia.jar https://repo1.maven.org/maven2/org/jolokia/jolokia-jvm/${JOLOKIA_VERSION}/jolokia-jvm-${JOLOKIA_VERSION}-agent.jar
-
-USER jboss
-
 # Switch to jolokia-ssl.properties when trying client certificate auth
 ADD jolokia.properties /opt/artemis/jolokia.properties
+#ADD jolokia-ssl.properties /opt/artemis/jolokia.properties
+
+# Download Jolokia
+RUN cd artemis && \
+    curl -o jolokia.jar https://repo1.maven.org/maven2/org/jolokia/jolokia-jvm/${JOLOKIA_VERSION}/jolokia-jvm-${JOLOKIA_VERSION}-agent.jar && \
+    chown jboss:jboss jolokia.jar jolokia.properties
+
+# Add jboss user to the root group for running on OpenShift
+RUN usermod -g root -G jboss jboss
+
+USER jboss
 
 WORKDIR /opt/artemis
 
@@ -30,7 +35,8 @@ RUN ./bin/artemis create test \
       --user admin \
       --password admin \
       --role amq \
-      --require-login
+      --require-login && \
+    chmod g+rw -R test
 
 RUN sed -i 's/localhost:8161/0.0.0.0:8161/g' test/etc/bootstrap.xml && \
     sed -i 's/localhost[*]/*/g' test/etc/jolokia-access.xml && \
