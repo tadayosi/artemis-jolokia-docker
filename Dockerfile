@@ -15,8 +15,7 @@ RUN curl -o artemis.tar.gz https://repository.apache.org/content/repositories/re
     chown jboss:jboss -R artemis
 
 # Switch to jolokia-ssl.properties when trying client certificate auth
-ADD jolokia.properties /opt/artemis/jolokia.properties
-#ADD jolokia-ssl.properties /opt/artemis/jolokia.properties
+ADD jolokia-ssl.properties /opt/artemis/jolokia.properties
 
 # Download Jolokia
 RUN cd artemis && \
