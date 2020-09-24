@@ -35,6 +35,7 @@ RUN ./bin/artemis create test \
       --user admin \
       --password admin \
       --role amq \
+      --queues test \
       --require-login && \
     chmod g+rw -R test
 

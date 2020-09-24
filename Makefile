@@ -9,5 +9,5 @@ push:
 
 deploy-openshift:
 	-oc delete dc/artemis
-	oc run artemis --image=tadayosi/artemis:latest
+	oc run artemis --image=tadayosi/artemis:latest --image-pull-policy='Always'
 	oc patch dc artemis -p '{"spec":{"template":{"spec":{"containers":[{"name":"artemis","ports":[{"containerPort":8161,"name":"console-jolokia","protocol":"TCP"},{"containerPort":8778,"name":"jolokia","protocol":"TCP"},{"containerPort":61616,"name":"artemis","protocol":"TCP"}]}]}}}}'
