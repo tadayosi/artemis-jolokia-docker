@@ -2,6 +2,9 @@ build:
 	docker build -t tadayosi/artemis:latest .
 
 run:
+	docker run --rm -p 8161:8161 -p 8778:8778 -p 61616:61616 --name artemis tadayosi/artemis:latest
+
+run-daemon:
 	docker run --rm -d -p 8161:8161 -p 8778:8778 -p 61616:61616 --name artemis tadayosi/artemis:latest
 
 push:
