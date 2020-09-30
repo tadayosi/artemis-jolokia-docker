@@ -42,6 +42,9 @@ RUN sed -i 's/localhost:8161/0.0.0.0:8161/g' test/etc/bootstrap.xml && \
     sed -i 's/localhost[*]/*/g' test/etc/jolokia-access.xml && \
     echo -e "\nJAVA_ARGS=\"-javaagent:\${ARTEMIS_HOME}/jolokia.jar=config=\${ARTEMIS_HOME}/jolokia.properties \$JAVA_ARGS\"" >> test/etc/artemis.profile
 
+# Add management.xml to disable RBAC at Artemis
+ADD management.xml test/etc/management.xml
+
 EXPOSE 8161 61616 8778
 
 ENTRYPOINT ["/opt/artemis/test/bin/artemis", "run"]

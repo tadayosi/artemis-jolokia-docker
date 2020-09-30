@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<management-context xmlns="http://activemq.org/schema">
+  <authorisation>
+    <whitelist>
+      <entry domain="hawtio"/>
+      <!--
+        For hawtio-online, RBAC is checked at the hawtio nginx reverse proxy
+        and must not be checked at broker.
+        See: https://github.com/hawtio/hawtio-online#rbac
+      -->
+      <entry domain="org.apache.activemq.artemis"/>
+    </whitelist>
+    <default-access>
+      <access method="list*" roles="amq"/>
+      <access method="get*" roles="amq"/>
+      <access method="is*" roles="amq"/>
+      <access method="set*" roles="amq"/>
+      <access method="*" roles="amq"/>
+    </default-access>
+    <role-access>
+      <match domain="org.apache.activemq.artemis">
+        <access method="list*" roles="amq"/>
+        <access method="get*" roles="amq"/>
+        <access method="is*" roles="amq"/>
+        <access method="set*" roles="amq"/>
+        <access method="*" roles="amq"/>
+      </match>
+    </role-access>
+  </authorisation>
+</management-context>
